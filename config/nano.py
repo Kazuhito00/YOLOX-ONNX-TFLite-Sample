@@ -15,23 +15,13 @@ class Exp(MyExp):
         self.depth = 0.33
         self.width = 0.25
         self.input_size = (416, 416)
-        self.mosaic_scale = (0.5, 1.5)
         self.random_size = (10, 20)
+        self.mosaic_scale = (0.5, 1.5)
         self.test_size = (416, 416)
-        self.exp_name = os.path.split(
-            os.path.realpath(__file__))[1].split(".")[0]
+        self.mosaic_prob = 0.5
         self.enable_mixup = False
-
-        # Define yourself dataset path
-        self.data_dir = "/content/dataset/images"
-        self.train_ann = "/content/dataset/annotations/train_annotations.json"
-        self.val_ann = "/content/dataset/annotations/validation_annotations.json"
-
+        self.exp_name = os.path.split(os.path.realpath(__file__))[1].split(".")[0]
         self.num_classes = 80
-
-        self.max_epoch = 100
-        self.data_num_workers = 4
-        self.eval_interval = 1
 
     def get_model(self, sublinear=False):
         def init_yolo(M):
