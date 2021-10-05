@@ -32,7 +32,7 @@ def get_args():
     parser.add_argument(
         '--score_th',
         type=float,
-        default=0.1,
+        default=0.3,
         help='Class confidence',
     )
     parser.add_argument(
@@ -92,6 +92,10 @@ def main():
         with_p6=with_p6,
     )
 
+    # COCOクラスリスト読み込み
+    with open('coco_classes.txt', 'rt') as f:
+        coco_classes = f.read().rstrip('\n').split('\n')
+
     if image_path is not None:
         image = cv2.imread(image_path)
 
@@ -109,6 +113,7 @@ def main():
             bboxes,
             scores,
             class_ids,
+            coco_classes,
         )
 
         cv2.imshow('YOLOX ONNX Sample', image)
@@ -137,6 +142,7 @@ def main():
                 bboxes,
                 scores,
                 class_ids,
+                coco_classes,
             )
 
             # キー処理(ESC：終了) ##############################################
@@ -151,7 +157,15 @@ def main():
         cv2.destroyAllWindows()
 
 
-def draw_debug(image, elapsed_time, score_th, bboxes, scores, class_ids):
+def draw_debug(
+    image,
+    elapsed_time,
+    score_th,
+    bboxes,
+    scores,
+    class_ids,
+    coco_classes,
+):
     debug_image = copy.deepcopy(image)
 
     for bbox, score, class_id in zip(bboxes, scores, class_ids):
@@ -171,7 +185,7 @@ def draw_debug(image, elapsed_time, score_th, bboxes, scores, class_ids):
 
         # クラスID、スコア
         score = '%.2f' % score
-        text = '%s:%s' % (str(int(class_id)), score)
+        text = '%s:%s' % (str(coco_classes[int(class_id)]), score)
         debug_image = cv2.putText(
             debug_image,
             text,
