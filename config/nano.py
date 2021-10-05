@@ -22,7 +22,7 @@ class Exp(MyExp):
             os.path.realpath(__file__))[1].split(".")[0]
         self.enable_mixup = False
 
-        self.num_classes = 801
+        self.num_classes = 80
 
     def get_model(self, sublinear=False):
         def init_yolo(M):
