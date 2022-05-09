@@ -90,6 +90,7 @@ def main():
         nms_th=nms_th,
         nms_score_th=nms_score_th,
         with_p6=with_p6,
+        providers=['CUDAExecutionProvider', 'CPUExecutionProvider'],
     )
 
     # COCOクラスリスト読み込み
